@@ -1,0 +1,76 @@
+/* UserLogin.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.login-box {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 350px;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  color: #4a90e2;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.login-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #357ab8;
+}
+
+.login-btn:focus {
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .login-box {
+    width: 100%;
+    padding: 30px;
+  }
+}
