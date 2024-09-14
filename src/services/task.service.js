@@ -28,9 +28,39 @@ export class TaskService {
         return result?.data;
     }
 
-    async createTask() {
-
+    async createTask(task) {
+        const token = this.getAuthToken();
+        const url = `${this.apiBaseUrl}/tasks/create/`;
+        const result = await axios.post(url, task, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return result?.data;
     }
+
+    async updateTask(task) {
+        const token = this.getAuthToken();
+        const url = `${this.apiBaseUrl}/tasks/update/${task.id}`;
+        const result = await axios.patch(url, task, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return result?.data;
+    }
+
+    async deleteTask(taskId) {
+        const token = this.getAuthToken();
+        const url = `${this.apiBaseUrl}/tasks/delete/${taskId}`;
+        const result = await axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return result?.data;
+    }
+
 }
 
 export default new TaskService();

@@ -2,19 +2,31 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { TaskService } from '../../../services/task.service';
 
-function AddTask({ handleClose }) {
+function AddOrEditTask({ handleClose, task = null }) {
   const taskService = TaskService.instance;
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState(task?.title)
+  const [description, setDescription] = useState(task?.description)
 
-  const createTask = async () => {
-    try {
-      const tasks = await taskService.createTask({ title, description });
-      handleClose(true);
-    }
-    catch (error) {
-      console.log(error);
-      handleClose();
+  const createOrEditTask = async () => {
+    if (task) {
+      // edit
+      try {
+        const updateTask = await taskService.updateTask({ id: task.id, title, description })
+        handleClose(true);
+      }
+      catch (error) {
+        console.log(error);
+        handleClose();
+      }
+    } else {
+      try {
+        const tasks = await taskService.createTask({ title, description });
+        handleClose(true);
+      }
+      catch (error) {
+        console.log(error);
+        handleClose();
+      }
     }
   }
 
@@ -22,7 +34,7 @@ function AddTask({ handleClose }) {
     <>
       <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Task</Modal.Title>
+          <Modal.Title>{task != null ? 'Edit' : 'Add'} Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <>
@@ -47,7 +59,7 @@ function AddTask({ handleClose }) {
                 required
               />
             </div>
-            <button type="button" className="register-btn" onClick={createTask}>Save</button>
+            <button type="button" className="register-btn" onClick={createOrEditTask}>Save</button>
           </>
         </Modal.Body>
       </Modal>
@@ -55,4 +67,4 @@ function AddTask({ handleClose }) {
   );
 }
 
-export default AddTask;
+export default AddOrEditTask;
