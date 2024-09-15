@@ -13,7 +13,6 @@ const TaskItem = ({ task, refetch }) => {
 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [markComplete, setMarkComplete] = useState(false)
 
   const handleShowEditTaskPopup = () => {
     setShowEditPopup(true)
@@ -95,7 +94,8 @@ const TaskItem = ({ task, refetch }) => {
           <div className="task-actions d-flex justify-content-between">
             <button className="btn btn-outline-secondary" onClick={handleShowEditTaskPopup}>Edit</button>
             <button className="btn btn-outline-danger" onClick={handleShowConfirmDelete}>Delete</button>
-            <button className="btn btn-success" onClick={() => markCompleted(task)}>Mark as Completed</button>
+            {task.status== false && <button className="btn btn-primary" onClick={() => markCompleted(task)}>Mark as Completed</button>
+          }
           </div>
         </Card.Body>
       </Card>

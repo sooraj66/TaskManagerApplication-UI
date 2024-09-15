@@ -1,40 +1,6 @@
 /* Task List Container */
 .task-list-container {
     padding: 20px;
-    background-color: #f8f9fa;
-}
-
-/* Task Item Card */
-.task-item-card {
-    margin-bottom: 20px;
-    border-radius: 10px;
-    transition: transform 0.2s ease;
-}
-
-.task-item-card:hover {
-    transform: translateY(-5px);
-}
-
-/* Task Title Link */
-.task-title-link {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.task-title-link:hover {
-    text-decoration: underline;
-}
-
-/* Task Actions */
-.task-actions {
-    margin-top: 15px;
-    gap: 10px;
-}
-
-.btn-outline-secondary,
-.btn-outline-danger {
-    padding: 5px 10px;
 }
 
 /* Card grid layout */

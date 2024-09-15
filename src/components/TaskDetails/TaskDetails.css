@@ -77,11 +77,3 @@
     color: white;
   }
   
-  .task-status.completed {
-    background-color: #28a745;
-  }
-  
-  .task-status.pending {
-    background-color: #dc3545;
-  }
-  

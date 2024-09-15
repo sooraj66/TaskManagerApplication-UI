@@ -114,16 +114,15 @@ const TaskList = () => {
             <button className="btn btn-primary" onClick={handleShowAddTaskPopup}>Add Task</button>
         </div>
 
-        {/* Task grid layout */}
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 task-list">
-            {filteredTasks.map(task => (
+            {tasks.length === 0 ? <div>No Tasks</div> : (filteredTasks.length == 0 ? <div>No {filterValues.statusFilterVal} Task</div> : filteredTasks.map(task => (
                 <div className="col" key={task.id}>
                     <TaskItem
                         task={task}
                         refetch={getAllTasks}
                     />
                 </div>
-            ))}
+            )))}
         </div>
 
         {showAddPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} />}
