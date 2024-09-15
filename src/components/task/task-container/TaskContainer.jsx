@@ -19,10 +19,12 @@ function TaskContainer() {
     };
 
     return (
-        <div className="task-list-container">
+        <>
             <Navbar onSearch={searchTasks} onFilter={filterTasks} />
-            <TaskList />
-        </div>
+            <div className="task-list-container">
+                <TaskList />
+            </div>
+        </>
     )
 }
 

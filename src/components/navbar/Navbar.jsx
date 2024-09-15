@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ onSearch, onFilter }) => {
+const Navbar = () => {
+  const navigate = useNavigate();
+
+  const logout = ()=>{
+    localStorage.removeItem('access_token');
+    navigate('/login')
+
+  }
 
   return (
     <nav className="navbar">
       <div className="logo">Task Manager</div>
+      <button className='btn btn-warning text-white' onClick={logout}>Logout</button>
     </nav>
   );
 };

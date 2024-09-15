@@ -9,10 +9,10 @@
  */
 
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UserRegistration from './components/auth/registration/Registration'
 import UserLogin from './components/auth/login/Login';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import "./App.css"
 import TaskContainer from './components/task/task-container/TaskContainer';
 import TaskDetails from './components/TaskDetails/TaskDetails';
@@ -21,15 +21,30 @@ import TaskDetails from './components/TaskDetails/TaskDetails';
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAutheticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      setIsAutheticated(false);
+      navigate('/login')
+    } else {
+      setIsAutheticated(true);
+    }
+  }, [])
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<TaskContainer />} />  {/* Define routes for different pages */}
-        <Route path="/signup" element={<UserRegistration />} />  {/* Route for the registration page */}
+        <Route path="/signup" element={<UserRegistration />} />
         <Route path="/login" element={<UserLogin />} />
-        <Route path="/tasks/:id" element={<TaskDetails/>} />
+        {isAuthenticated && <>
+          <Route path="/" element={<TaskContainer />} />
+          <Route path="/tasks/:id" element={<TaskDetails />} />
+        </>
+        }
+
       </Routes>
     </>
   )
