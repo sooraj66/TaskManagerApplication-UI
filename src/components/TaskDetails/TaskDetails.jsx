@@ -13,7 +13,6 @@ const TaskDetails = () => {
         try {
             const token = localStorage.getItem('access_token');
             const url = `http://localhost:8000/tasks/${id}`;
-            console.log(id)
             const result = await axios.get(url, {
               headers: {
                 Authorization: `Bearer ${token}`

@@ -5,12 +5,15 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const TaskItem = ({ task, refetch }) => {
+  const navigate = useNavigate();
 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [markComplete, setMarkComplete] = useState(false)
 
   const handleShowEditTaskPopup = () => {
     setShowEditPopup(true)
@@ -51,32 +54,48 @@ const TaskItem = ({ task, refetch }) => {
 
   }
 
+  const markCompleted = async (task) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const url = `http://localhost:8000/tasks/update/${task.id}`;
+      console.log(task.id)
+      const status = { status: true }
+      const result = await axios.patch(url, status, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      refetch();
+    }
+    catch (err) {
+      if (err?.status === 401) {
+        navigate('/login')
+      }
+      console.log(err)
+    }
+  }
+
   return (
     <>
-      {/* <div className="task-item">
-        <span>{task.title}</span>
-
-        <span>status : {task.status ? 'completed' : 'pending'}</span>
-
-        <div className="task-actions">
-          <button onClick={handleShowEditTaskPopup}>Edit</button>
-          <button onClick={() => deleteTask(task)}>Delete</button>
-        </div>
-      </div> */}
       {showEditPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} task={task} />}
 
       {showConfirmDelete && <ConfirmDelete handleClose={handleHideConfirmDelete} deleteTask={() => deleteTask(task)} />}
 
-      <Card border="primary" style={{ width: '18rem' }}>
-        <Card.Header><Link to={`/tasks/${task.id}`}>{task.title}</Link></Card.Header>
+      <Card border="primary" className="task-item-card shadow-sm">
+        <Card.Header>
+          <Link to={`/tasks/${task.id}`} className="task-title-link">{task.title}</Link>
+        </Card.Header>
         <Card.Body>
-          <Card.Title><span>status : {task.status ? 'completed' : 'pending'}</span></Card.Title>
-          <Card.Text>
-            {task.description}
-          </Card.Text>
-          <div className="task-actions">
-            <button onClick={handleShowEditTaskPopup}>Edit</button>
-            <button onClick={handleShowConfirmDelete}>Delete</button>
+          <Card.Title>
+            <span className={`badge ${task.status ? 'bg-success' : 'bg-warning'}`}>
+              {task.status ? 'Completed' : 'Pending'}
+            </span>
+          </Card.Title>
+          <Card.Text>{task.description}</Card.Text>
+          <div className="task-actions d-flex justify-content-between">
+            <button className="btn btn-outline-secondary" onClick={handleShowEditTaskPopup}>Edit</button>
+            <button className="btn btn-outline-danger" onClick={handleShowConfirmDelete}>Delete</button>
+            <button className="btn btn-success" onClick={() => markCompleted(task)}>Mark as Completed</button>
           </div>
         </Card.Body>
       </Card>

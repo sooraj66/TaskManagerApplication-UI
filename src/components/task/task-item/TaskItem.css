@@ -1,47 +1,42 @@
-.task-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
-  }
-  
-  .task-item span {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-  
-  .task-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .task-actions button {
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .task-actions button:hover {
-    background-color: #357ab8;
-  }
-  
-  .task-actions .delete-btn {
-    background-color: #e74c3c;
-  }
-  
-  .task-actions .delete-btn:hover {
-    background-color: #c0392b;
-  }
-  
-  button {
-    font-family: inherit;
-  }
+/* Task List Container */
+.task-list-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Task Item Card */
+.task-item-card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.task-item-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Task Title Link */
+.task-title-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.task-title-link:hover {
+  text-decoration: underline;
+}
+
+/* Task Actions */
+.task-actions {
+  margin-top: 15px;
+}
+
+.btn-outline-secondary, .btn-outline-danger {
+  padding: 5px 10px;
+}
+
+/* Card grid layout */
+.task-list .col {
+  display: flex;
+  justify-content: center;
+}

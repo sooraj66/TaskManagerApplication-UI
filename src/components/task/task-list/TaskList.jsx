@@ -89,10 +89,11 @@ const TaskList = () => {
 
 
     return <div className="task-list-container">
-        <div className='d-flex justify-content-end gap-2'>
+        <div className="d-flex justify-content-end gap-2 mb-3">
             <input
                 type="text"
-                className="search-bar"
+                className="search-bar form-control"
+                style={{ width: 'inherit' }}
                 placeholder="Search Tasks..."
                 onChange={(e) => setFilterValues(prevVal => ({ ...prevVal, searchVal: e.target.value }))}
             />
@@ -100,7 +101,7 @@ const TaskList = () => {
                 <button
                     className="dropdown-btn"
                     onClick={() => setIsTaskFilterDropdownOpen(!isTaskFilterDropdownOpen)}>
-                    Filter Status ▼
+                    Filter Status
                 </button>
                 {isTaskFilterDropdownOpen && (
                     <div className="dropdown-content">
@@ -110,21 +111,24 @@ const TaskList = () => {
                     </div>
                 )}
             </div>
-            <button className='btn btn-primary mt-1' onClick={handleShowAddTaskPopup}>Add Task</button>
+            <button className="btn btn-primary" onClick={handleShowAddTaskPopup}>Add Task</button>
         </div>
 
-
-        <div className="task-list">
+        {/* Task grid layout */}
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 task-list">
             {filteredTasks.map(task => (
-                <TaskItem
-                    key={task.id}
-                    task={task}
-                    refetch={getAllTasks}
-                />
+                <div className="col" key={task.id}>
+                    <TaskItem
+                        task={task}
+                        refetch={getAllTasks}
+                    />
+                </div>
             ))}
         </div>
+
         {showAddPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} />}
     </div>
+
 };
 
 export default TaskList;
