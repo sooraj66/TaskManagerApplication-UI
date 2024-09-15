@@ -13,6 +13,7 @@ const UserRegistration = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleRegister = async (e) => {
+    const apiBaseUrl = 'http://127.0.0.1:8000';
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match!');
@@ -20,7 +21,7 @@ const UserRegistration = () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/signup/', {
+      const response = await fetch(`${apiBaseUrl}/signup/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

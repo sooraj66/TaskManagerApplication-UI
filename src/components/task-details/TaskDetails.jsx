@@ -6,6 +6,9 @@ import axios from 'axios';
 import Navbar from '../navbar/Navbar';
 
 const TaskDetails = () => {
+    const token = localStorage.getItem('access_token');
+    const apiBaseUrl = `http://localhost:8000`;
+
     const navigate = useNavigate();
     const { id } = useParams();
     const [task, setTask] = useState({});
@@ -16,15 +19,13 @@ const TaskDetails = () => {
 
     const fetchtask = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-            const url = `http://localhost:8000/tasks/${id}`;
+            const url = `${apiBaseUrl}/tasks/${id}`;
             const result = await axios.get(url, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             setTask(result?.data)
-
         }
         catch (err) {
             if (err?.status === 401) {
@@ -32,7 +33,6 @@ const TaskDetails = () => {
             }
             console.log(err)
         }
-
     }
 
     return (

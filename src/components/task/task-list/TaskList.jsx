@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import TaskItem from '../task-item/Taskitem';
-import AddOrEditTask from '../add-task/AddOrEditTask';
+import AddOrEditTask from '../add-or-edit-task/AddOrEditTask';
 import "./TaskList.css";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../navbar/Navbar.css';
 
 const TaskList = () => {
+    const token = localStorage.getItem('access_token');
+    const apiBaseUrl = `http://localhost:8000`;
 
     const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
 
@@ -39,8 +41,7 @@ const TaskList = () => {
 
     const getAllTasks = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-            const url = `http://localhost:8000/alltasks/`;
+            const url = `${apiBaseUrl}/alltasks/`;
             const result = await axios.get(url, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -72,19 +73,14 @@ const TaskList = () => {
             case 'all':
                 setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'all' }))
                 break;
-
             case 'completed':
                 setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'completed' }))
                 break;
             case "pending":
                 setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'pending' }))
                 break;
-
         }
         setIsTaskFilterDropdownOpen(false);
-
-
-
     }
 
 
@@ -115,14 +111,17 @@ const TaskList = () => {
         </div>
 
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 task-list">
-            {tasks.length === 0 ? <div>No Tasks</div> : (filteredTasks.length == 0 ? <div>No {filterValues.statusFilterVal} Task</div> : filteredTasks.map(task => (
-                <div className="col" key={task.id}>
-                    <TaskItem
-                        task={task}
-                        refetch={getAllTasks}
-                    />
-                </div>
-            )))}
+            {tasks.length === 0 ? <div>No Tasks</div> :
+                (filteredTasks.length == 0 ?
+                    <div>No {filterValues.statusFilterVal} Task</div> :
+                    filteredTasks.map(task => (
+                        <div className="col" key={task.id}>
+                            <TaskItem
+                                task={task}
+                                refetch={getAllTasks}
+                            />
+                        </div>
+                    )))}
         </div>
 
         {showAddPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} />}

@@ -10,26 +10,24 @@ const UserLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleLogin = async (e) => {
+    const apiBaseUrl = 'http://127.0.0.1:8000';
+
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/login/', {
+      const response = await axios.post(`${apiBaseUrl}/login/`, {
         username,
         password,
       });
 
       if (response.status === 200) {
         const { access, refresh } = response.data;
-        setSuccessMessage('Login successful!');
         setErrorMessage('');
 
-        // Store tokens or perform other login-related actions here
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
 
-        // Forward to the tasks page
         navigate('/')
       }
     } catch (error) {
@@ -46,7 +44,6 @@ const UserLogin = () => {
       <div className="login-box">
         <h1 className="title">Task Manager</h1>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         <form onSubmit={handleLogin}>
           <div className="input-group">
             <label htmlFor="username">Username</label>

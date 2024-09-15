@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import './TaskItem.css'
-import AddOrEditTask from '../add-task/AddOrEditTask';
+import AddOrEditTask from '../add-or-edit-task/AddOrEditTask';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
+import ConfirmDelete from '../../confirm-delete/ConfirmDelete';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
 const TaskItem = ({ task, refetch }) => {
+  const token = localStorage.getItem('access_token');
+  const apiBaseUrl = `http://localhost:8000`;
+
   const navigate = useNavigate();
 
   const [showEditPopup, setShowEditPopup] = useState(false);
@@ -34,9 +37,7 @@ const TaskItem = ({ task, refetch }) => {
 
   const deleteTask = async (task) => {
     try {
-      const token = localStorage.getItem('access_token');
-      const url = `http://localhost:8000/tasks/delete/${task.id}`;
-      console.log(task.id)
+      const url = `${apiBaseUrl}/tasks/delete/${task.id}`;
       const result = await axios.delete(url, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -55,9 +56,7 @@ const TaskItem = ({ task, refetch }) => {
 
   const markCompleted = async (task) => {
     try {
-      const token = localStorage.getItem('access_token');
-      const url = `http://localhost:8000/tasks/update/${task.id}`;
-      console.log(task.id)
+      const url = `${apiBaseUrl}/tasks/update/${task.id}`;
       const status = { status: true }
       const result = await axios.patch(url, status, {
         headers: {
@@ -94,8 +93,8 @@ const TaskItem = ({ task, refetch }) => {
           <div className="task-actions d-flex justify-content-between">
             <button className="btn btn-outline-secondary" onClick={handleShowEditTaskPopup}>Edit</button>
             <button className="btn btn-outline-danger" onClick={handleShowConfirmDelete}>Delete</button>
-            {task.status== false && <button className="btn btn-primary" onClick={() => markCompleted(task)}>Mark as Completed</button>
-          }
+            {task.status == false && <button className="btn btn-primary" onClick={() => markCompleted(task)}>Mark as Completed</button>
+            }
           </div>
         </Card.Body>
       </Card>

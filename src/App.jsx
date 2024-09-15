@@ -15,7 +15,7 @@ import UserLogin from './components/auth/login/Login';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import "./App.css"
 import TaskContainer from './components/task/task-container/TaskContainer';
-import TaskDetails from './components/TaskDetails/TaskDetails';
+import TaskDetails from './components/task-details/TaskDetails';
 
 
 
@@ -32,7 +32,7 @@ function App() {
     } else {
       setIsAutheticated(true);
     }
-  }, [])
+  })
 
   return (
     <>
