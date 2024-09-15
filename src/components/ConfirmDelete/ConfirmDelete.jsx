@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function AlertModal({ deleteTask, handleClose }) {
+function ConfirmDelete({ deleteTask, handleClose }) {
   return (
     <>
       <Modal show={true} onHide={handleClose}>
@@ -23,4 +23,4 @@ function AlertModal({ deleteTask, handleClose }) {
   );
 }
 
-export default AlertModal;
+export default ConfirmDelete;

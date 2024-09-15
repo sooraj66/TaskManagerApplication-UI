@@ -3,7 +3,7 @@ import './TaskItem.css'
 import AddOrEditTask from '../add-task/AddOrEditTask';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import AlertModal from '../../alert/AlertModel';
+import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
 
 
 const TaskItem = ({ task, refetch }) => {
@@ -64,7 +64,7 @@ const TaskItem = ({ task, refetch }) => {
       </div> */}
       {showEditPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} task={task} />}
 
-      {showConfirmDelete && <AlertModal handleClose={handleHideConfirmDelete} deleteTask={() => deleteTask(task)} />}
+      {showConfirmDelete && <ConfirmDelete handleClose={handleHideConfirmDelete} deleteTask={() => deleteTask(task)} />}
 
       <Card border="primary" style={{ width: '18rem' }}>
         <Card.Header>{task.title}</Card.Header>
