@@ -15,6 +15,7 @@ import UserLogin from './components/auth/login/Login';
 import { Routes, Route } from 'react-router-dom';
 import "./App.css"
 import TaskContainer from './components/task/task-container/TaskContainer';
+import TaskDetails from './components/TaskDetails/TaskDetails';
 
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<TaskContainer />} />  {/* Define routes for different pages */}
         <Route path="/signup" element={<UserRegistration />} />  {/* Route for the registration page */}
         <Route path="/login" element={<UserLogin />} />
+        <Route path="/tasks/:id" element={<TaskDetails/>} />
       </Routes>
     </>
   )

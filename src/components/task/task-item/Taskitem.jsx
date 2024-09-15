@@ -4,6 +4,7 @@ import AddOrEditTask from '../add-task/AddOrEditTask';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
+import { Link } from 'react-router-dom';
 
 
 const TaskItem = ({ task, refetch }) => {
@@ -67,7 +68,7 @@ const TaskItem = ({ task, refetch }) => {
       {showConfirmDelete && <ConfirmDelete handleClose={handleHideConfirmDelete} deleteTask={() => deleteTask(task)} />}
 
       <Card border="primary" style={{ width: '18rem' }}>
-        <Card.Header>{task.title}</Card.Header>
+        <Card.Header><Link to={`/tasks/${task.id}`}>{task.title}</Link></Card.Header>
         <Card.Body>
           <Card.Title><span>status : {task.status ? 'completed' : 'pending'}</span></Card.Title>
           <Card.Text>
