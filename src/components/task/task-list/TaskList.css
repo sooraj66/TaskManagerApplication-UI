@@ -52,5 +52,9 @@
 }
 
 .dropdown-content button:hover {
-    background-color: #f1f1f1;
+    background-color: #b3b8b0;
+}
+
+.active{
+    background-color: #ede8e7 !important;
 }

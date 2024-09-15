@@ -101,9 +101,9 @@ const TaskList = () => {
                 </button>
                 {isTaskFilterDropdownOpen && (
                     <div className="dropdown-content">
-                        <button onClick={() => handleFilterClick('all')}>All</button>
-                        <button onClick={() => handleFilterClick('completed')}>Completed</button>
-                        <button onClick={() => handleFilterClick('pending')}>Pending</button>
+                        <button className={filterValues.statusFilterVal == 'all'? 'active' : ''} onClick={() => handleFilterClick('all')}>All</button>
+                        <button className={filterValues.statusFilterVal == 'completed'? 'active' : ''} onClick={() => handleFilterClick('completed')}>Completed</button>
+                        <button className={filterValues.statusFilterVal == 'pending'? 'active' : ''} onClick={() => handleFilterClick('pending')}>Pending</button>
                     </div>
                 )}
             </div>

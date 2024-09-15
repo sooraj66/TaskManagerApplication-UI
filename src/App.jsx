@@ -22,15 +22,11 @@ import TaskDetails from './components/task/task-details/TaskDetails';
 
 function App() {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAutheticated] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (!token) {
-      setIsAutheticated(false);
       navigate('/login')
-    } else {
-      setIsAutheticated(true);
     }
   })
 
@@ -39,11 +35,8 @@ function App() {
       <Routes>
         <Route path="/signup" element={<UserRegistration />} />
         <Route path="/login" element={<UserLogin />} />
-        {isAuthenticated && <>
-          <Route path="/" element={<TaskContainer />} />
-          <Route path="/tasks/:id" element={<TaskDetails />} />
-        </>
-        }
+        <Route path="/" element={<TaskContainer />} />
+        <Route path="/tasks/:id" element={<TaskDetails />} />
 
       </Routes>
     </>
