@@ -14,10 +14,28 @@ const TaskList = () => {
     const [tasks, setTasks] = useState([]);
     const [filteredTasks, setFilteredTasks] = useState([])
     const [showAddPopup, setShowAddPopup] = useState(false);
+    const [filterValues, setFilterValues] = useState({
+        searchVal: '',
+        statusFilterVal: 'all'
+    })
 
     useEffect(() => {
         getAllTasks();
     }, []);
+
+    useEffect(() => {
+        const filteredTask = tasks.filter(task => {
+            const matchesSearch = task.title.toLowerCase().includes(filterValues.searchVal.toLowerCase());
+            const matchesStatus =
+                filterValues.statusFilterVal === 'all' ||
+                (filterValues.statusFilterVal === 'completed' && task.status === true) ||
+                (filterValues.statusFilterVal === 'pending' && task.status === false);
+
+            return matchesSearch && matchesStatus;
+        });
+
+        setFilteredTasks(filteredTask);
+    }, [filterValues])
 
     const getAllTasks = async () => {
         try {
@@ -52,26 +70,31 @@ const TaskList = () => {
     const handleFilterClick = (selectedOption) => {
         switch (selectedOption) {
             case 'all':
-                setFilteredTasks(tasks);
+                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'all' }))
                 break;
 
             case 'completed':
-                setFilteredTasks(tasks.filter(task => task.status === true));
+                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'completed' }))
                 break;
             case "pending":
-                setFilteredTasks(tasks.filter(task => task.status === false));
+                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'pending' }))
                 break;
 
         }
         setIsTaskFilterDropdownOpen(false);
+
+
+
     }
+
+
     return <div className="task-list-container">
         <div className='d-flex justify-content-end gap-2'>
             <input
                 type="text"
                 className="search-bar"
                 placeholder="Search Tasks..."
-                onChange={(e) => onSearch(e.target.value)}
+                onChange={(e) => setFilterValues(prevVal => ({ ...prevVal, searchVal: e.target.value }))}
             />
             <div className="dropdown">
                 <button
