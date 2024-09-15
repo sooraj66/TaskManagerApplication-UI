@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Config from '../../../Config';
 
 const UserLogin = () => {
 
@@ -12,11 +13,9 @@ const UserLogin = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async (e) => {
-    const apiBaseUrl = 'http://127.0.0.1:8000';
-
     e.preventDefault();
     try {
-      const response = await axios.post(`${apiBaseUrl}/login/`, {
+      const response = await axios.post(`${Config.API_BASE_URL}/login/`, {
         username,
         password,
       });
@@ -70,7 +69,7 @@ const UserLogin = () => {
           <button type="submit" className="login-btn">Login</button>
         </form>
         <p>Dont have an account?</p>
-        <Link className='btn btn-success m-2' to={`/signup/}`}>Signup</Link>
+        <Link className='btn btn-success m-2' to={`/signup`}>Signup</Link>
       </div>
     </div>
   );

@@ -3,11 +3,11 @@ import './TaskDetails.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../navbar/Navbar';
+import Navbar from '../../navbar/Navbar';
+import Config from '../../../Config';
 
 const TaskDetails = () => {
     const token = localStorage.getItem('access_token');
-    const apiBaseUrl = `http://localhost:8000`;
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -19,7 +19,7 @@ const TaskDetails = () => {
 
     const fetchtask = async () => {
         try {
-            const url = `${apiBaseUrl}/tasks/${id}`;
+            const url = `${Config.API_BASE_URL}/tasks/${id}`;
             const result = await axios.get(url, {
                 headers: {
                     Authorization: `Bearer ${token}`

@@ -5,10 +5,10 @@ import "./TaskList.css";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../navbar/Navbar.css';
+import Config from '../../../Config';
 
 const TaskList = () => {
     const token = localStorage.getItem('access_token');
-    const apiBaseUrl = `http://localhost:8000`;
 
     const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
 
@@ -41,7 +41,7 @@ const TaskList = () => {
 
     const getAllTasks = async () => {
         try {
-            const url = `${apiBaseUrl}/alltasks/`;
+            const url = `${Config.API_BASE_URL}/alltasks/`;
             const result = await axios.get(url, {
                 headers: {
                     Authorization: `Bearer ${token}`

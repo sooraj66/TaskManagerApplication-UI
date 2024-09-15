@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Registration.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Config from '../../../Config';
 
 const UserRegistration = () => {
   const navigate = useNavigate();
@@ -13,7 +14,6 @@ const UserRegistration = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleRegister = async (e) => {
-    const apiBaseUrl = 'http://127.0.0.1:8000';
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match!');
@@ -21,7 +21,7 @@ const UserRegistration = () => {
     }
 
     try {
-      const response = await fetch(`${apiBaseUrl}/signup/`, {
+      const response = await fetch(`${Config.API_BASE_URL}/signup/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,6 @@ const UserRegistration = () => {
 
       if (response.status === 201) {
         setSuccessMessage(data.message);
-        navigate("/login");
         setErrorMessage('');
       } else {
         setErrorMessage(data.error);
@@ -54,7 +53,7 @@ const UserRegistration = () => {
       <div className="registration-box">
         <h1 className="title">Task Manager</h1>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+        {successMessage && <p className='text-success'>Registration successful! Please <a href="/login">log in</a>.</p>}
         <form onSubmit={handleRegister}>
           <div className="input-group">
             <label htmlFor="username">Username</label>

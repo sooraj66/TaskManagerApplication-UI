@@ -6,11 +6,11 @@ import axios from 'axios';
 import ConfirmDelete from '../../confirm-delete/ConfirmDelete';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Config from '../../../Config';
 
 
 const TaskItem = ({ task, refetch }) => {
   const token = localStorage.getItem('access_token');
-  const apiBaseUrl = `http://localhost:8000`;
 
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ const TaskItem = ({ task, refetch }) => {
 
   const deleteTask = async (task) => {
     try {
-      const url = `${apiBaseUrl}/tasks/delete/${task.id}`;
+      const url = `${Config.API_BASE_URL}/tasks/delete/${task.id}`;
       const result = await axios.delete(url, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -56,7 +56,7 @@ const TaskItem = ({ task, refetch }) => {
 
   const markCompleted = async (task) => {
     try {
-      const url = `${apiBaseUrl}/tasks/update/${task.id}`;
+      const url = `${Config.API_BASE_URL}/tasks/update/${task.id}`;
       const status = { status: true }
       const result = await axios.patch(url, status, {
         headers: {

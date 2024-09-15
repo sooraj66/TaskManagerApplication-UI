@@ -15,7 +15,7 @@ import UserLogin from './components/auth/login/Login';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import "./App.css"
 import TaskContainer from './components/task/task-container/TaskContainer';
-import TaskDetails from './components/task-details/TaskDetails';
+import TaskDetails from './components/task/task-details/TaskDetails';
 
 
 
