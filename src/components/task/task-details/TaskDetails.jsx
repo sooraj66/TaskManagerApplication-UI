@@ -35,6 +35,13 @@ const TaskDetails = () => {
         }
     }
 
+    const formatDate = (timestampString) => {
+        const date = new Date(timestampString);
+        const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' });
+
+        return formattedDate
+    }
+
     return (
         <>
             <Navbar />
@@ -57,6 +64,14 @@ const TaskDetails = () => {
                         <span className={`task-status ${task.status ? 'bg-success' : 'bg-warning'}`}>
                             {task.status ? 'Completed' : 'Pending'}
                         </span>
+                    </div>
+                    <div className="task-field row">
+                        <label className="task-label">Created At:</label>
+                        <p className="task-value task-description">{formatDate(task.created_at)}</p>
+                    </div>
+                    <div className="task-field">
+                        <label className="task-label">Updated At:</label>
+                        <p className="task-value task-description">{formatDate(task.updated_at)}</p>
                     </div>
                 </div>
             </div>
