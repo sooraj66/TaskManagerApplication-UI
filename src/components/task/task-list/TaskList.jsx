@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { TaskService } from '../../../services/task.service';
 import TaskItem from '../task-item/Taskitem';
 import AddOrEditTask from '../add-task/AddOrEditTask';
 import "./TaskList.css";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const TaskList = () => {
-    const taskService = TaskService.instance;
+    const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [showAddPopup, setShowAddPopup] = useState(false);
 
@@ -14,8 +15,21 @@ const TaskList = () => {
     }, []);
 
     const getAllTasks = async () => {
-        const tasks = await taskService.getAllTasks();
-        setTasks(tasks);
+        try {
+            const token = localStorage.getItem('access_token');
+            const url = `http://localhost:8000/alltasks/`;
+            const result = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setTasks(result?.data)
+        }
+        catch (err) {
+            if (err?.status === 401) {
+                navigate('/login')
+            }
+        }
     }
 
     const handleShowAddTaskPopup = () => {
