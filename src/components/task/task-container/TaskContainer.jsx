@@ -15,7 +15,6 @@ function TaskContainer() {
     const token = localStorage.getItem('access_token');
     const navigate = useNavigate();
 
-    // const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [filterValues, setFilterValues] = useState({
@@ -70,22 +69,6 @@ function TaskContainer() {
         }
     }
 
-    const handleFilterClick = (selectedOption) => {
-        switch (selectedOption) {
-            case 'all':
-                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'all' }));
-                break;
-            case 'completed':
-                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'completed' }));
-                break;
-            case "pending":
-                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'pending' }));
-                break;
-        }
-        setIsTaskFilterDropdownOpen(false);
-        setCurrentPage(1);
-    }
-
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     }
@@ -94,16 +77,17 @@ function TaskContainer() {
         <>
             <Navbar />
             <div className="task-list-container">
-                <TaskFilter setFilterValues={setFilterValues} handleShowAddTaskPopup={handleShowAddTaskPopup} />
-
-                <TaskList tasks={tasks} refetch={getAllTasks} />
+                <div className="task-list-content">
+                    <TaskFilter setFilterValues={setFilterValues} filterValues={filterValues} setCurrentPage={setCurrentPage} handleShowAddTaskPopup={handleShowAddTaskPopup} />
+                    <TaskList tasks={tasks} refetch={getAllTasks} />
+                </div>
 
                 <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
-
+                
                 {showAddPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} />}
             </div>
         </>
     )
 }
 
-export default TaskContainer
+export default TaskContainer;

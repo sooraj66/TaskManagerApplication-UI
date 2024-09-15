@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
 import './TaskFilter.css';
 
-function TaskFilter({ setFilterValues, handleShowAddTaskPopup }) {
+function TaskFilter({ filterValues, setFilterValues, handleShowAddTaskPopup, setCurrentPage }) {
     const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
+
+    const handleFilterClick = (selectedOption) => {
+        switch (selectedOption) {
+            case 'all':
+                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'all' }));
+                break;
+            case 'completed':
+                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'completed' }));
+                break;
+            case "pending":
+                setFilterValues(prevVal => ({ ...prevVal, statusFilterVal: 'pending' }));
+                break;
+        }
+        setIsTaskFilterDropdownOpen(false);
+        setCurrentPage(1);
+    }
 
     return (
         <div className="d-flex justify-content-end gap-2 mb-3 task-list-main">

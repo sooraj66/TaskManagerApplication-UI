@@ -1,10 +1,12 @@
 .task-list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
     padding: 20px;
+    box-sizing: border-box;
 }
 
-@media (max-width:565px) {
-    .task-list-main {
-        flex-wrap: wrap;
-        width: 100%;
-    }
+.task-list-content {
+    flex-grow: 1;
 }

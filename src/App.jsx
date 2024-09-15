@@ -21,14 +21,14 @@ import TaskDetails from './components/task/task-details/TaskDetails';
 
 
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      navigate('/login')
-    }
-  })
+  // useEffect(() => {
+  //   const token = localStorage.getItem('access_token');
+  //   if (!token) {
+  //     navigate('/login')
+  //   }
+  // })
 
   return (
     <>
