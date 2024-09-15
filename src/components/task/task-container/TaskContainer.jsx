@@ -3,6 +3,7 @@ import './TaskContainer.css'
 import TaskList from "../task-list/TaskList";
 import Navbar from '../../navbar/Navbar';
 import AddOrEditTask from '../add-or-edit-task/AddOrEditTask';
+import Pagination from '../pagination/Pagination';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../navbar/Navbar.css';
@@ -119,21 +120,7 @@ function TaskContainer() {
 
                 {<TaskList tasks={tasks} refetch={getAllTasks} />}
 
-                <div className="pagination-controls">
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}>
-                        Previous
-                    </button>
-                    <span style={{ lineHeight: 2 }}>{`Page ${currentPage} of ${totalPages}`}</span>
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}>
-                        Next
-                    </button>
-                </div>
+                <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
 
                 {showAddPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} />}
             </div>
