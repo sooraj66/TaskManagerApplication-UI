@@ -113,7 +113,7 @@ const TaskList = () => {
                 <button className="btn btn-primary" onClick={handleShowAddTaskPopup}>Add Task</button>
             </div>
 
-            <div className="row task-list">
+            <div className="row  row-cols-1 row-cols-md-2 row-cols-lg-3 g-4  task-list">
                 {tasks.length === 0 ? (
                     <div>No Tasks</div>
                 ) : (

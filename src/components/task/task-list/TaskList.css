@@ -1,4 +1,3 @@
-/* Task List Container */
 .task-list-container {
     padding: 20px;
 }
@@ -73,33 +72,4 @@
     display: flex;
     justify-content: end;
     gap: 1em;
-}
-
-.task-list {
-    height: calc(100vh - 230px);
-    overflow: auto;
-}
-
-/* For WebKit browsers */
-.task-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.task-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.task-list::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 10px;
-}
-
-.task-list::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* For Firefox */
-.task-list {
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f1f1f1;
 }

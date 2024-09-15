@@ -3,18 +3,23 @@
   margin-bottom: 20px;
   border-radius: 10px;
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: auto;
 }
 
-.task-title-link {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
+.task-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.task-title-link:hover {
-  text-decoration: underline;
+.task-body-content {
+  flex: 1;
 }
 
 .task-actions {
   margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
 }
