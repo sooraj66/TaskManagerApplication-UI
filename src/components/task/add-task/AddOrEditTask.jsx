@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { TaskService } from '../../../services/task.service';
+import axios from 'axios';
 
 function AddOrEditTask({ handleClose, task = null }) {
-  const taskService = TaskService.instance;
   const [title, setTitle] = useState(task?.title)
   const [description, setDescription] = useState(task?.description)
 
@@ -11,7 +10,14 @@ function AddOrEditTask({ handleClose, task = null }) {
     if (task) {
       // edit
       try {
-        const updateTask = await taskService.updateTask({ id: task.id, title, description })
+        const token = localStorage.getItem('access_token');
+        const url = `http://localhost:8000/tasks/update/${task.id}`;
+        const updateTask = { id:task.id, title, description };
+        const result = await axios.patch(url, updateTask, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         handleClose(true);
       }
       catch (error) {
@@ -20,7 +26,13 @@ function AddOrEditTask({ handleClose, task = null }) {
       }
     } else {
       try {
-        const tasks = await taskService.createTask({ title, description });
+        const token = localStorage.getItem('access_token');
+        const url = `http://localhost:8000/tasks/create/`;
+        const result = await axios.post(url,{title, description}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         handleClose(true);
       }
       catch (error) {

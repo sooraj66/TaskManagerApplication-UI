@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
 import './TaskItem.css'
 import AddOrEditTask from '../add-task/AddOrEditTask';
-import { TaskService } from '../../../services/task.service';
 import Card from 'react-bootstrap/Card';
+import axios from 'axios';
+import AlertModal from '../../alert/AlertModel';
 
 
 const TaskItem = ({ task, refetch }) => {
-  const taskService = TaskService.instance;
 
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleShowEditTaskPopup = () => {
     setShowEditPopup(true)
+  }
+
+  const handleShowConfirmDelete = () => {
+    setShowConfirmDelete(true)
+  }
+
+  const handleHideConfirmDelete = () => {
+    setShowConfirmDelete(false)
   }
 
   const handleHideAddTaskPopup = (isEditSuccess = false) => {
@@ -22,11 +31,21 @@ const TaskItem = ({ task, refetch }) => {
 
   const deleteTask = async (task) => {
     try {
-      await taskService.deleteTask(task.id)
+      const token = localStorage.getItem('access_token');
+      const url = `http://localhost:8000/tasks/delete/${task.id}`;
+      console.log(task.id)
+      const result = await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       refetch();
     }
-    catch (error) {
-      console.log(error)
+    catch (err) {
+      if (err?.status === 401) {
+        navigate('/login')
+      }
+      console.log(err)
     }
 
   }
@@ -45,6 +64,8 @@ const TaskItem = ({ task, refetch }) => {
       </div> */}
       {showEditPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} task={task} />}
 
+      {showConfirmDelete && <AlertModal handleClose={handleHideConfirmDelete} deleteTask={() => deleteTask(task)} />}
+
       <Card border="primary" style={{ width: '18rem' }}>
         <Card.Header>{task.title}</Card.Header>
         <Card.Body>
@@ -54,7 +75,7 @@ const TaskItem = ({ task, refetch }) => {
           </Card.Text>
           <div className="task-actions">
             <button onClick={handleShowEditTaskPopup}>Edit</button>
-            <button onClick={() => deleteTask(task)}>Delete</button>
+            <button onClick={handleShowConfirmDelete}>Delete</button>
           </div>
         </Card.Body>
       </Card>
