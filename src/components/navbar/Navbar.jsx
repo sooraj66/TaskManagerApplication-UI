@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="logo">Task Manager</div>
-      <button className='btn btn-warning text-white' onClick={logout}>Logout</button>
+      <button className='btn btn-warning text-white logout-btn' onClick={logout}>Logout</button>
     </nav>
   );
 };

@@ -9,12 +9,10 @@ import Config from '../../../Config';
 
 const TaskList = () => {
     const token = localStorage.getItem('access_token');
+    const navigate = useNavigate();
 
     const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
-
-    const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
-    const [filteredTasks, setFilteredTasks] = useState([])
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [filterValues, setFilterValues] = useState({
         searchVal: '',
@@ -26,29 +24,30 @@ const TaskList = () => {
     }, []);
 
     useEffect(() => {
-        const filteredTask = tasks.filter(task => {
-            const matchesSearch = task.title.toLowerCase().includes(filterValues.searchVal.toLowerCase());
-            const matchesStatus =
-                filterValues.statusFilterVal === 'all' ||
-                (filterValues.statusFilterVal === 'completed' && task.status === true) ||
-                (filterValues.statusFilterVal === 'pending' && task.status === false);
+        let queryParams = [];
+        if (filterValues.searchVal) {
+            queryParams.push(`q=${filterValues.searchVal.toLowerCase()}`);
+        }
+        if (filterValues.statusFilterVal !== 'all') {
+            const status = filterValues.statusFilterVal === 'completed' ? 'True' : 'False';
+            queryParams.push(`status=${status}`);
+        }
 
-            return matchesSearch && matchesStatus;
-        });
-
-        setFilteredTasks(filteredTask);
+        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+        getAllTasks(queryString);
     }, [filterValues])
 
-    const getAllTasks = async () => {
+    const getAllTasks = async (qryString) => {
         try {
-            const url = `${Config.API_BASE_URL}/alltasks/`;
+            let url = `${Config.API_BASE_URL}/alltasks/`
+            if (qryString)
+                url = `${Config.API_BASE_URL}/alltasks/${qryString}`;
             const result = await axios.get(url, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             setTasks(result?.data);
-            setFilteredTasks(result?.data);
         }
         catch (err) {
             if (err?.status === 401) {
@@ -85,7 +84,7 @@ const TaskList = () => {
 
 
     return <div className="task-list-container">
-        <div className="d-flex justify-content-end gap-2 mb-3">
+        <div className="d-flex justify-content-end gap-2 mb-3 task-list-main">
             <input
                 type="text"
                 className="search-bar form-control"
@@ -101,27 +100,26 @@ const TaskList = () => {
                 </button>
                 {isTaskFilterDropdownOpen && (
                     <div className="dropdown-content">
-                        <button className={filterValues.statusFilterVal == 'all'? 'active' : ''} onClick={() => handleFilterClick('all')}>All</button>
-                        <button className={filterValues.statusFilterVal == 'completed'? 'active' : ''} onClick={() => handleFilterClick('completed')}>Completed</button>
-                        <button className={filterValues.statusFilterVal == 'pending'? 'active' : ''} onClick={() => handleFilterClick('pending')}>Pending</button>
+                        <button className={filterValues.statusFilterVal == 'all' ? 'active' : ''} onClick={() => handleFilterClick('all')}>All</button>
+                        <button className={filterValues.statusFilterVal == 'completed' ? 'active' : ''} onClick={() => handleFilterClick('completed')}>Completed</button>
+                        <button className={filterValues.statusFilterVal == 'pending' ? 'active' : ''} onClick={() => handleFilterClick('pending')}>Pending</button>
                     </div>
                 )}
             </div>
             <button className="btn btn-primary" onClick={handleShowAddTaskPopup}>Add Task</button>
         </div>
 
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 task-list">
-            {tasks.length === 0 ? <div>No Tasks</div> :
-                (filteredTasks.length == 0 ?
-                    <div>No {filterValues.statusFilterVal} Task</div> :
-                    filteredTasks.map(task => (
-                        <div className="col" key={task.id}>
-                            <TaskItem
-                                task={task}
-                                refetch={getAllTasks}
-                            />
-                        </div>
-                    )))}
+        <div className="row task-list">
+            {tasks.length === 0 ?
+                <div>No Tasks</div> :
+                tasks.map(task => (
+                    <div className="col" key={task.id}>
+                        <TaskItem
+                            task={task}
+                            refetch={getAllTasks}
+                        />
+                    </div>
+                ))}
         </div>
 
         {showAddPopup && <AddOrEditTask handleClose={handleHideAddTaskPopup} />}

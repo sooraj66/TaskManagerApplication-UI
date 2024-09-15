@@ -13,3 +13,6 @@
     font-weight: bold;
   }
   
+  .logout-btn:hover{
+    background-color: rgb(221, 228, 18);
+  }
