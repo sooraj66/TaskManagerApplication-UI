@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './TaskContainer.css'
 import TaskList from "../task-list/TaskList";
 import Navbar from '../../navbar/Navbar';
+import TaskFilter from '../task-filters/TaskFilter';
 import AddOrEditTask from '../add-or-edit-task/AddOrEditTask';
 import Pagination from '../pagination/Pagination';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +15,7 @@ function TaskContainer() {
     const token = localStorage.getItem('access_token');
     const navigate = useNavigate();
 
-    const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
+    // const [isTaskFilterDropdownOpen, setIsTaskFilterDropdownOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [filterValues, setFilterValues] = useState({
@@ -93,32 +94,9 @@ function TaskContainer() {
         <>
             <Navbar />
             <div className="task-list-container">
-                <div className="d-flex justify-content-end gap-2 mb-3 task-list-main">
-                    <input
-                        type="text"
-                        className="search-bar form-control"
-                        style={{ width: 'inherit' }}
-                        placeholder="Search Tasks..."
-                        onChange={(e) => setFilterValues(prevVal => ({ ...prevVal, searchVal: e.target.value }))}
-                    />
-                    <div className="dropdown">
-                        <button
-                            className="dropdown-btn"
-                            onClick={() => setIsTaskFilterDropdownOpen(!isTaskFilterDropdownOpen)}>
-                            Filter Status
-                        </button>
-                        {isTaskFilterDropdownOpen && (
-                            <div className="dropdown-content">
-                                <button className={filterValues.statusFilterVal === 'all' ? 'active' : ''} onClick={() => handleFilterClick('all')}>All</button>
-                                <button className={filterValues.statusFilterVal === 'completed' ? 'active' : ''} onClick={() => handleFilterClick('completed')}>Completed</button>
-                                <button className={filterValues.statusFilterVal === 'pending' ? 'active' : ''} onClick={() => handleFilterClick('pending')}>Pending</button>
-                            </div>
-                        )}
-                    </div>
-                    <button className="btn btn-primary" onClick={handleShowAddTaskPopup}>Add Task</button>
-                </div>
+                <TaskFilter setFilterValues={setFilterValues} handleShowAddTaskPopup={handleShowAddTaskPopup} />
 
-                {<TaskList tasks={tasks} refetch={getAllTasks} />}
+                <TaskList tasks={tasks} refetch={getAllTasks} />
 
                 <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
 
